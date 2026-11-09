@@ -203,11 +203,11 @@ export function readStoredEvents(value: string | null): EventListing[] {
       const event = item as Partial<EventListing>;
       return typeof event.id === "string" && typeof event.title === "string" && typeof event.sold === "number" && typeof event.vipSold === "number" && typeof event.capacity === "number" && typeof event.vipCapacity === "number";
     });
-    return events.length ? events.map((event) => ({
+    return events.map((event) => ({
       ...event,
       status: event.status === "sold_out" || event.status === "cancelled" ? event.status : "active",
       archived: event.archived === true,
-    })) : sampleEvents;
+    }));
   } catch {
     return sampleEvents;
   }
@@ -259,7 +259,7 @@ export function getLowInventoryEvents(events: EventListing[], today: string): Ev
 
 export function getAdminMetrics(events: EventListing[], bookings: Booking[], today: string) {
   const confirmed = bookings.filter((booking) => booking.status === "confirmed");
-  const revenue = bookings.filter((booking) => booking.paymentStatus === "paid" || booking.paymentStatus === "forfeited");
+  const revenue = bookings.filter((booking) => booking.status === "confirmed" || (booking.status === "cancelled" && booking.paymentStatus === "forfeited"));
   return {
     activeEvents: events.filter((event) => !event.archived && event.status === "active" && event.date >= today).length,
     confirmedBookings: confirmed.length,
