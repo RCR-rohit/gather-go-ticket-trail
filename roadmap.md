@@ -10,4 +10,4 @@
 - [x] Calculate dashboard KPIs and 10%-or-5-ticket alerts from confirmed booking and active event data.
 - [x] Add tests for cancellation inventory and confirmed revenue rules.
 - [x] Verify the booking-to-confirmation and cancellation flow, preview errors, and phone-sized layouts.
-- [ ] Commit the finished work.
+- [x] Commit the finished work.
