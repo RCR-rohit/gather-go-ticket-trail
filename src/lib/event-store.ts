@@ -284,3 +284,12 @@ export function cancelBooking(booking: Booking, bookings: Booking[], events: Eve
   });
   return { bookings: bookings.map((item) => item.id === booking.id ? cancelledBooking : item), events: updatedEvents };
 }
+
+export function removeEventOrArchive(eventId: string, events: EventListing[], bookings: Booking[]): EventListing[] {
+  const hasBookingHistory = bookings.some((booking) => booking.eventId === eventId);
+  return events.flatMap((event) => {
+    if (event.id !== eventId) return [event];
+    if (hasBookingHistory) return [{ ...event, archived: true }];
+    return [];
+  });
+}
